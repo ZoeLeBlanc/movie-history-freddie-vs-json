@@ -25,9 +25,10 @@ function createLogoutButton(){
 function displaySearchMovie(movieSearched){
 	//clear out DOM
 	searchMovie(movieSearched).then((returnedMovie)=>{
-		console.log("returned Movie: ", returnedMovie);
+		console.log("returned Movie: ", returnedMovie.Poster);
 		//get elements from data and append to DOM
 		//add save button & rate button & seen/unseen checkbox? radio?
+		$("#movieSearchArea").append(`<img src="${returnedMovie.Poster}"><h6>${returnedMovie.Title}</h6>`);
 	});
 }
 function getSavedMovies(){
@@ -39,18 +40,26 @@ function getSavedMovies(){
 	});
 	//getMovieSearches 
 	firebaseMethods.getMovies(apiKeys, uid).then((savedMovies)=>{
-		console.log("savedMovies", savedMovies);
-		
+		// console.log("savedMovies", savedMovies);
+		let seenMovies = [];
+		let unseenMovies = [];
+		// seenMovies = savedMovies;
 		$.each(savedMovies, (index, movie)=>{
+
 			if (movie.watched){
-				displaySeenMovies(movie);
+				seenMovies.push(movie);
+				
 			} else if (!movie.watched) {
-				displayUnseenMovies(movie);
+				unseenMovies.push(movie);
+				// displayUnseenMovies(movie, unseenMovies);
 			} else {
 				console.log("no movies");
 			}
 			
 		});
+		
+		displaySeenMovies(seenMovies);
+		displayUnseenMovies(unseenMovies);
 	}).catch( (error)=>{
 		console.log("error", error);
 	});
@@ -59,14 +68,21 @@ function getSavedMovies(){
 	//displayUnseenMovies
 	
 }
-function displaySeenMovies(savedMovie){
+function displaySeenMovies(savedMovies, sortCategory){
 //append seen movies to $("#seenMovies")
-	console.log("seen Movie", savedMovie);
+	let bysortCategoy = savedMovies.slice(0);
+	bysortCategoy.sort( (a,b)=> {
+		return b.sortCategoy - a.sortCategoy;
+	});
+	console.log("user Rating", bysortCategoy);
+	// console.log("arrayOfMovies", savedMovies);
+	
 }
 function displayUnseenMovies(savedMovie){
 //append unseen movies to $("#unseenMovies")
-	console.log("unseenseen MOvie", savedMovie);
+	// console.log("unseenseen MOvie", savedMovie);
 }
+
 //Load page
 $(document).ready(function() {
 	credentials().then( (keys)=>{

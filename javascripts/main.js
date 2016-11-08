@@ -8,6 +8,12 @@ let firebaseUser = require("./firebaseUser");
 //Set variables
 let apiKeys = {};
 
+//Load functions
+function displaySearchMovie(movieSearched){
+	searchMovie(movieSearched).then((returnedMovie)=>{
+		console.log("returned Movie: ", returnedMovie);
+	});
+}
 //Load page
 $(document).ready(function() {
 	credentials().then( (keys)=>{
@@ -20,12 +26,12 @@ $(document).ready(function() {
 	$('#movie-input').keypress( (event)=>{
 		if (event.which == 13){
 			let movieTitle = $("#movie-input").val();
-			loadMovie(movieTitle);
+			displaySearchMovie(movieTitle);
 		} 
 	});
 	//get Movie search title on button click
 	$('#search-button').on("click", (event)=>{
 		let movieTitle = $("#movie-input").val();
-		loadMovie(movieTitle);
+		displaySearchMovie(movieTitle);
 	});
 });

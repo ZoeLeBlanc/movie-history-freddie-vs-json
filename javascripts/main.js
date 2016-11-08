@@ -32,17 +32,40 @@ function displaySearchMovie(movieSearched){
 }
 function getSavedMovies(){
 	//getUser and use uid
+	firebaseUser.getUser(apiKeys, uid).then((userResponse)=>{
+		console.log("userResponse", userResponse);
+	}).catch( (error)=>{
+		console.log("error", error);
+	});
 	//getMovieSearches 
+	firebaseMethods.getMovies(apiKeys, uid).then((savedMovies)=>{
+		console.log("savedMovies", savedMovies);
+		
+		$.each(savedMovies, (index, movie)=>{
+			if (movie.watched){
+				displaySeenMovies(movie);
+			} else if (!movie.watched) {
+				displayUnseenMovies(movie);
+			} else {
+				console.log("no movies");
+			}
+			
+		});
+	}).catch( (error)=>{
+		console.log("error", error);
+	});
 	//check if search is seen or unseen with true or false
 	//displaySeenMovies
 	//displayUnseenMovies
 	
 }
-function displaySeenMovies(){
+function displaySeenMovies(savedMovie){
 //append seen movies to $("#seenMovies")
+	console.log("seen Movie", savedMovie);
 }
-function displayUnseenMovies(){
+function displayUnseenMovies(savedMovie){
 //append unseen movies to $("#unseenMovies")
+	console.log("unseenseen MOvie", savedMovie);
 }
 //Load page
 $(document).ready(function() {
@@ -57,12 +80,14 @@ $(document).ready(function() {
 		if (event.which == 13){
 			let movieTitle = $("#movie-input").val();
 			displaySearchMovie(movieTitle);
+			$("#movie-input").val("");
 		} 
 	});
 	//get Movie search title on button click
 	$('#search-button').on("click", (event)=>{
 		let movieTitle = $("#movie-input").val();
 		displaySearchMovie(movieTitle);
+		$("#movie-input").val("");
 	});
 
 	$("#registerButton").on("click", function(){
@@ -93,6 +118,7 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
+			getSavedMovies();
 		});
 	});
 
@@ -110,6 +136,8 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
+			getSavedMovies();
+
 		});
 	});
 

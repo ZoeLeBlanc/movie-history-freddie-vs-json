@@ -16,7 +16,7 @@ function getUser(apiKeys, uid){
 				reject(error);
 			});
 		});
-};
+}
 function addUser(apiKeys, newUser){
 		return new Promise( (resolve, reject)=> {
 			$.ajax({
@@ -31,7 +31,7 @@ function addUser(apiKeys, newUser){
 				reject(error);
 			});
 		});
-};
+}
 let firebaseUser = {
 	getUser, addUser
 };

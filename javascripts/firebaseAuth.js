@@ -11,7 +11,7 @@ function registerUser(credentials){
         reject(error);
       });
     });
-};
+}
 
 function loginUser(credentials){
     return new Promise((resolve, reject) => {
@@ -23,15 +23,15 @@ function loginUser(credentials){
         reject(error);
       });
     });
-};
+}
 
 function credentialsCurrentUser(){
     return firebase.auth().currentUser;
-};
+}
 
 function logoutUser(){
      firebase.auth().signOut();
-};
+}
 let firebaseAuth = {
   registerUser, loginUser, credentialsCurrentUser, logoutUser
 };

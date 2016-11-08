@@ -1,2 +1,33 @@
 .brand-logo {
   margin-left: 1em; }
+
+#loginButton {
+  margin-bottom: 1em; }
+
+#movie-link {
+  margin-right: 1em;
+  width: 20em; }
+
+#logout-container {
+  margin-right: 1em; }
+
+.btn {
+  background-color: #FF4081; }
+
+.btn:hover {
+  background-color: #C5CAE9; }
+
+nav {
+  background-color: #3F51B5; }
+
+input[type=email]:focus:not([readonly]) {
+  border-bottom: 1px solid #FF4081;
+  box-shadow: 0 1px 0 0 #FF4081; }
+
+input[type=password]:focus:not([readonly]) {
+  border-bottom: 1px solid #FF4081;
+  box-shadow: 0 1px 0 0 #FF4081; }
+
+input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid #FF4081;
+  box-shadow: 0 1px 0 0 #FF4081; }

@@ -9,9 +9,31 @@
 			"userRating": 5,
 			"watched": true,
 			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-			"uid": "VWDCAmoAk8Tx8916SgflrfEpKMj1"
+			"uid": "H6iARjt2O8bL9Mb3AUjBEzYazlF3"
 		},
 		"movie_1": {
+			"title": "Star Wars: Episode I - The Phantom Menace",
+			"director": "George Lucas",
+			"year": "1999",
+			"cast": "Liam Neeson, Ewan McGregor, Natalie Portman, Jake Lloyd",
+			"imdbRating": 6.5,
+			"userRating": null,
+			"watched": false,
+			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BM2FmZGIwMzAtZTBkMS00M2JiLTk2MDctM2FlNTQ2OWYwZDZkXkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_SX300.jpg",
+			"uid": "H6iARjt2O8bL9Mb3AUjBEzYazlF3"
+		},
+		"movie_2": {
+			"title": "Clueless",
+			"director": "Amy Heckerling",
+			"year": "1995",
+			"cast": "Alicia Silverstone, Stacey Dash, Brittany Murphy, Paul Rudd",
+			"imdbRating": 6.8,
+			"userRating": 4,
+			"watched": true,
+			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTgxODIxODE2MF5BMl5BanBnXkFtZTgwOTA4NjQxMTE@._V1_SX300.jpg",
+			"uid": "H6iARjt2O8bL9Mb3AUjBEzYazlF3"
+		},
+		"movie_3": {
 			"title": "Godfather",
 			"director": "Lal, Siddique",
 			"year": "1991",
@@ -26,7 +48,7 @@
 	"users": {
 		"user_1":{
 			"username": "Zoe",
-			"uid": "VWDCAmoAk8Tx8916SgflrfEpKMj1"
+			"uid": "H6iARjt2O8bL9Mb3AUjBEzYazlF3"
 		},
 		"user_2":{
 			"username": "Alex",

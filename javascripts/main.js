@@ -1,16 +1,31 @@
 "use strict";
-
-let getMovie = require("./getMovie");
+//Set browersify requires
+let searchMovie = require("./searchMovie");
 let credentials = require("./credentials");
+let firebaseMethods = require("./firebaseMethods");
+let firebaseAuth = require("./firebaseAuth");
+let firebaseUser = require("./firebaseUser");
+//Set variables
 let apiKeys = {};
 
+//Load page
 $(document).ready(function() {
 	credentials().then( (keys)=>{
 		apiKeys = keys;
 		console.log("keys", keys);
 		firebase.initializeApp(keys);
 	});
-	getMovie("Top Gun").then((returnedMovie)=>{
-		console.log("returned Movie: ", returnedMovie);
+
+	//get Movie search title on enter key
+	$('#movie-input').keypress( (event)=>{
+		if (event.which == 13){
+			let movieTitle = $("#movie-input").val();
+			loadMovie(movieTitle);
+		} 
+	});
+	//get Movie search title on button click
+	$('#search-button').on("click", (event)=>{
+		let movieTitle = $("#movie-input").val();
+		loadMovie(movieTitle);
 	});
 });

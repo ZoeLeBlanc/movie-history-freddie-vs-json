@@ -1,0 +1,6 @@
+.DS_Store
+
+lib/node_modules
+lib/bower_components
+apiKeysMovie.json
+apiKeysFirebase.json

@@ -11,7 +11,7 @@
 <body>
 
 <div class="container-fluid">
-	<div class="row hide">
+	<div class="row">
 		<div class="card col s6 offset-s3" id="login-container">
 	        <h1 class="form-signin-heading col s12">Freddie VS JSON</h1>
 	        <div class="input-field">
@@ -33,7 +33,7 @@
 	        <div class="nav-wrapper">
 	          <a href="#!" class="brand-logo">Freddie Vs JSON</a>
 	          <ul class="right hide-on-med-and-down">
-	            <li><input type="text" id="movie-input" value="" placeholder="Type in a movie title"></li>
+	            <li class="col"><input type="text" id="movie-input" value="" placeholder="Type in a movie title"></li>
 	            <li><a class="waves-effect waves-light btn" id="search-button">Search</a></li>
 	            <li id="logout-container"></li>
 	          </ul>
@@ -43,7 +43,10 @@
 	    <!-- Main Search Area -->
 		<div id="movieSearchArea">
 		</div>
-
+		<div id="seenMovies">
+		</div>
+		<div id="unseenMovies">
+		</div>
 	</div>
 </div>
 	<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>

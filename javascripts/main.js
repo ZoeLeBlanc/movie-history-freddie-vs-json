@@ -1,12 +1,12 @@
 "use strict";
-
-let getMovie = require("./getMovie");
+//Set browersify requires
+let searchMovie = require("./searchMovie");
 let credentials = require("./credentials");
-let firebaseUser = require("./firebaseUser");
+
+let firebaseMethods = require("./firebaseMethods");
 let firebaseAuth = require("./firebaseAuth");
-// let getUser = require("./firebaseUser");
-// let loginUser = require("./firebaseAuth");
-// let logoutUser = require("./firebaseAuth");
+let firebaseUser = require("./firebaseUser");
+//Set variables
 
 let apiKeys = {};
 let uid = "";
@@ -21,14 +21,31 @@ function createLogoutButton(){
 	});
 }
 
+//Load functions
+function displaySearchMovie(movieSearched){
+	searchMovie(movieSearched).then((returnedMovie)=>{
+		console.log("returned Movie: ", returnedMovie);
+	});
+}
+//Load page
 $(document).ready(function() {
 	credentials().then( (keys)=>{
 		apiKeys = keys;
 		console.log("keys", keys);
 		firebase.initializeApp(keys);
 	});
-	getMovie("Top Gun").then((returnedMovie)=>{
-		console.log("returned Movie: ", returnedMovie);
+
+	//get Movie search title on enter key
+	$('#movie-input').keypress( (event)=>{
+		if (event.which == 13){
+			let movieTitle = $("#movie-input").val();
+			displaySearchMovie(movieTitle);
+		} 
+	});
+	//get Movie search title on button click
+	$('#search-button').on("click", (event)=>{
+		let movieTitle = $("#movie-input").val();
+		displaySearchMovie(movieTitle);
 	});
 
 	$("#registerButton").on("click", function(){

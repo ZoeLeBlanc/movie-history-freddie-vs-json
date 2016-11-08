@@ -1,6 +1,6 @@
 "use strict";
 
-function getMovie(movieName) {
+function searchMovie(movieName) {
 	return new Promise ((resolve, reject) => {
 		$.ajax({
 			method: 'GET',
@@ -15,4 +15,4 @@ function getMovie(movieName) {
 	});
 }
 
-module.exports = getMovie;
+module.exports = searchMovie;

@@ -1,0 +1,36 @@
+{
+	"movies": {
+		"movie_0": {
+			"title": "The Godfather",
+			"director": "Francis Ford Coppola",
+			"year": "1972",
+			"cast": "Marlon Brando, Al Pacino, James Caan, Richard S. Castellano",
+			"imdbRating": 9.2,
+			"userRating": 5,
+			"watched": true,
+			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
+			"uid": "VWDCAmoAk8Tx8916SgflrfEpKMj1"
+		},
+		"movie_1": {
+			"title": "Godfather",
+			"director": "Lal, Siddique",
+			"year": "1991",
+			"cast": "N.N. Pillai, Mukesh, Kanaka, Philomina",
+			"imdbRating": 8.5,
+			"userRating": 5,
+			"watched": true,
+			"poster": "http://ia.media-imdb.com/images/M/MV5BZTkyYzc5MGEtYTBiYS00ZmYyLThlZWUtOWY3ZWE4ZDhlN2MzXkEyXkFqcGdeQXVyMjM0ODk5MDU@._V1_SX300.jpg",
+			"uid": "dLoY5KXiCVUcKyhA5EA1zTDUmXr1"
+		}
+	},
+	"users": {
+		"user_1":{
+			"username": "Zoe",
+			"uid": "VWDCAmoAk8Tx8916SgflrfEpKMj1"
+		},
+		"user_2":{
+			"username": "Alex",
+			"uid": "dLoY5KXiCVUcKyhA5EA1zTDUmXr1"
+		}
+	}
+}

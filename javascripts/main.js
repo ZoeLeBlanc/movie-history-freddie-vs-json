@@ -25,8 +25,51 @@ function createLogoutButton(){
 function displaySearchMovie(movieSearched){
 	//clear out DOM
 	searchMovie(movieSearched).then((returnedMovie)=>{
+		$("#movieSearchArea").html("");
 		console.log("returned Movie: ", returnedMovie);
+		let searchedMovieCard =
+			`<div class="row">
+				<div class="col s6">
+			    <h4 class="header">${returnedMovie.Title} (${returnedMovie.Year})</h2>
+			    <div class="card horizontal">
+			      <div class="card-image">
+			        <img src="${returnedMovie.Poster}" width="75%" height="75%">
+			      </div>
+			      <div class="card-stacked">
+			        <div class="card-content">
+							<p>Starring ${returnedMovie.Actors}</p><br />
+							<p>${returnedMovie.Plot}</p>
+			        </div>
+			        <div class="card-action">
+								<p>Rating</p>
+								<p>
+						      <input name="movieRating" type="radio" id="rating_1" />
+									<label for="rating_1">1</label>
+
+						      <input name="movieRating" type="radio" id="rating_2" />
+									<label for="rating_2">2</label>
+
+						      <input name="movieRating" type="radio" id="rating_3" />
+									<label for="rating_3">3</label>
+
+						      <input name="movieRating" type="radio" id="rating_4" />
+									<label for="rating_4">4</label>
+
+						      <input name="movieRating" type="radio" id="rating_5" />
+									<label for="rating_5">5</label>
+						    </p>
+
+								<p>
+									<input type="checkbox" id="test5" />
+									<label for="test5">I've seen it</label>
+								</p>
+			          <button class="btn btn-primary save-btn">Save to My Collection</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>`;
 		//get elements from data and append to DOM
+		$("#movieSearchArea").html(searchedMovieCard);
 		//add save button & rate button & seen/unseen checkbox? radio?
 	});
 }
@@ -37,10 +80,10 @@ function getSavedMovies(){
 	}).catch( (error)=>{
 		console.log("error", error);
 	});
-	//getMovieSearches 
+	//getMovieSearches
 	firebaseMethods.getMovies(apiKeys, uid).then((savedMovies)=>{
 		console.log("savedMovies", savedMovies);
-		
+
 		$.each(savedMovies, (index, movie)=>{
 			if (movie.watched){
 				displaySeenMovies(movie);
@@ -49,7 +92,7 @@ function getSavedMovies(){
 			} else {
 				console.log("no movies");
 			}
-			
+
 		});
 	}).catch( (error)=>{
 		console.log("error", error);
@@ -57,7 +100,7 @@ function getSavedMovies(){
 	//check if search is seen or unseen with true or false
 	//displaySeenMovies
 	//displayUnseenMovies
-	
+
 }
 function displaySeenMovies(savedMovie){
 //append seen movies to $("#seenMovies")
@@ -81,7 +124,7 @@ $(document).ready(function() {
 			let movieTitle = $("#movie-input").val();
 			displaySearchMovie(movieTitle);
 			$("#movie-input").val("");
-		} 
+		}
 	});
 	//get Movie search title on button click
 	$('#search-button').on("click", (event)=>{
@@ -106,7 +149,7 @@ $(document).ready(function() {
 				"username": username,
 				"uid": registerResponse.uid
 			};
-			
+
 			return firebaseUser.addUser(apiKeys, newUser);
 			//return FbAPI.loginUser(user);
 
@@ -144,7 +187,7 @@ $(document).ready(function() {
 	$("#logout-container").on("click", "#logoutButton", function(){
 		firebaseAuth.logoutUser();
 		uid="";
-		
+
 		$("#inputEmail").val("");
 		$("#inputPassword").val("");
 		$("#inputUsername").val("");

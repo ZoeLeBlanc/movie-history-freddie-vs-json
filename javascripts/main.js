@@ -89,6 +89,7 @@ function sortSavedMovies(savedMovies, sortCategory, sortType){
 	let unseenMovies = [];
 		$.each(savedMovies, (index, movie)=>{
 			if (movie.watched){
+				// display movie
 				seenMovies.push(movie);
 				if (movie.watched === sortType){
 					console.log("seenMovies", seenMovies);

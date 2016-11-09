@@ -21,7 +21,7 @@ function addMovie(apiKeys, newMovie) {
 		return new Promise( (resolve, reject)=> {
 			$.ajax({
 				method:'POST',
-				url:`${apiKeys.databaseURL}/searches.json`,
+				url:`${apiKeys.databaseURL}/movies.json`,
 				data: JSON.stringify(newMovie),
 				dataType: 'json'
 			}).then( (response)=>{

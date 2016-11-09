@@ -1,3 +1,40 @@
+@import 'variables';
+
 .brand-logo {
 	margin-left: 1em;
 }
+<<<<<<< HEAD
+=======
+#loginButton {
+	margin-bottom: 1em;
+}
+#movie-link {
+	margin-right: 1em;
+	width: 20em;
+}
+#logout-container {
+	margin-right: 1em;
+}
+
+.btn {
+	background-color: $accent-color;
+}
+.btn:hover {
+	background-color: $primary-color-light;
+}
+nav {
+	background-color: $primary;
+}
+input[type=email]:focus:not([readonly]) {
+	border-bottom: 1px solid $accent-color;
+    box-shadow: 0 1px 0 0 $accent-color;
+}
+input[type=password]:focus:not([readonly]) {
+	border-bottom: 1px solid $accent-color;
+    box-shadow: 0 1px 0 0 $accent-color;
+}
+input[type=text]:focus:not([readonly]) {
+	border-bottom: 1px solid $accent-color;
+    box-shadow: 0 1px 0 0 $accent-color;
+}
+>>>>>>> 782ae03ce2b93dcaa24847ee70c25abd617c2e30

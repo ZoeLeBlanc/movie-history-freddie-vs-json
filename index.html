@@ -13,15 +13,12 @@
 <div class="container-fluid">
 	<div class="row hide" id="login-container">
 		<div class="card col s6 offset-s3" >
-	        <h1 class="form-signin-heading col s12">Freddie VS JSON</h1>
-	        <div class="input-field">
-		        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus></div>
-	        <div class="input-field">
-		        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required></div>
-	        <div class="input-field">
-		        <input type="text" id="inputUsername" class="form-control" placeholder="Username" required></div>
-	        <button class="btn btn-lg btn-success col-xs-6" id="loginButton">Login</button>
-	        <button class="btn btn-lg btn-primary col-xs-6" id="registerButton">Register</button>
+	        <h2 class="col s10 offset-s2">Freddie VS JSON</h2>
+		        <input type="email" id="inputEmail" class="input-field col s8 offset-s2" placeholder="Email address" required autofocus>
+		        <input type="password" id="inputPassword" class="input-field col s8 offset-s2" placeholder="Password" required>
+		        <input type="text" id="inputUsername" class="input-field col s8 offset-s2" placeholder="Username" required>
+	        <button class="btn waves-effect waves-light col s3 offset-s2" id="loginButton">Login</button>
+	        <button class="btn waves-effect waves-light col s3 offset-s2" id="registerButton">Register</button>
     	</div>
    </div>
 
@@ -33,7 +30,7 @@
 	        <div class="nav-wrapper">
 	          <a href="#!" class="brand-logo">Freddie Vs JSON</a>
 	          <ul class="right hide-on-med-and-down">
-	            <li class="col"><input type="text" id="movie-input" value="" placeholder="Type in a movie title"></li>
+	            <li id="movie-link"><input type="text" id="movie-input" value="" class="input-field col s8 offset-s2" placeholder="Type in a movie title"></li>
 	            <li><a class="waves-effect waves-light btn" id="search-button">Search</a></li>
 	            <li id="logout-container"></li>
 	          </ul>

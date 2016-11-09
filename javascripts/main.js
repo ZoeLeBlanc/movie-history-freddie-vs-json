@@ -71,44 +71,54 @@ function displaySearchMovie(movieSearched){
 		//get elements from data and append to DOM
 		$("#movieSearchArea").html(searchedMovieCard);
 		//add save button & rate button & seen/unseen checkbox? radio?
+		$("#movieSearchArea").append(`<img src="${returnedMovie.Poster}"><h6>${returnedMovie.Title}</h6>`);
 	});
 }
-function getSavedMovies(){
-	//getUser and use uid
-	firebaseUser.getUser(apiKeys, uid).then((userResponse)=>{
-		console.log("userResponse", userResponse);
-	}).catch( (error)=>{
-		console.log("error", error);
-	});
-	//getMovieSearches
+
+function getSavedMovies(sortCategory, sortType){
+	//getMovieSearches 
 	firebaseMethods.getMovies(apiKeys, uid).then((savedMovies)=>{
 		console.log("savedMovies", savedMovies);
-
-		$.each(savedMovies, (index, movie)=>{
-			if (movie.watched){
-				displaySeenMovies(movie);
-			} else if (!movie.watched) {
-				displayUnseenMovies(movie);
-			} else {
-				console.log("no movies");
-			}
-
-		});
+		sortSavedMovies(savedMovies, sortCategory, sortType);	
 	}).catch( (error)=>{
 		console.log("error", error);
 	});
-	//check if search is seen or unseen with true or false
-	//displaySeenMovies
-	//displayUnseenMovies
-
 }
-function displaySeenMovies(savedMovie){
+function sortSavedMovies(savedMovies, sortCategory, sortType){
+	let seenMovies = [];
+	let unseenMovies = [];
+		$.each(savedMovies, (index, movie)=>{
+			if (movie.watched){
+				seenMovies.push(movie);
+				if (movie.watched === sortType){
+					console.log("seenMovies", seenMovies);
+					orderMovies(seenMovies, sortCategory);
+				} else {
+					//display seen movies
+				}
+			}
+			if (!movie.watched) {
+				console.log("unwatched");
+				unseenMovies.push(movie);
+				if (sortType === "userRating"){
+					console.log("unseenMovies", unseenMovies);
+					orderMovies(unseenMovies, sortCategory);
+				} else {
+					console.log("unseenMovies", unseenMovies);
+					//display unseen movies
+				}
+			}
+		});
+}
+function orderMovies(savedMovies, sortCategory){
 //append seen movies to $("#seenMovies")
-	console.log("seen Movie", savedMovie);
-}
-function displayUnseenMovies(savedMovie){
-//append unseen movies to $("#unseenMovies")
-	console.log("unseenseen MOvie", savedMovie);
+	let bysortCategory = savedMovies.slice(0);
+	bysortCategory.sort( (a,b)=> {
+		return b.sortCategory - a.sortCategory;
+	});
+	console.log("orderedMovie", bysortCategory);
+	// display movies
+	
 }
 //Load page
 $(document).ready(function() {
@@ -161,7 +171,7 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
-			getSavedMovies();
+			getSavedMovies("imdbRating", true);
 		});
 	});
 
@@ -179,7 +189,7 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
-			getSavedMovies();
+			getSavedMovies("imdbRating", true);
 
 		});
 	});

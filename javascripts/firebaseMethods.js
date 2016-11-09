@@ -6,10 +6,10 @@ function getMovies(apiKeys, uid){
 				method:'GET',
 				url:`${apiKeys.databaseURL}/movies.json?orderBy="uid"&equalTo="${uid}"`
 			}).then( (response)=>{
-				let searches = [];
+				let movies = [];
 				Object.keys(response).forEach( (key)=> {
 					response[key].id = key;
-					searches.push(response[key]);
+					movies.push(response[key]);
 				});
 				resolve(response);
 			},(error)=>{

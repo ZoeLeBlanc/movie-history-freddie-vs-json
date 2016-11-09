@@ -10,6 +10,7 @@ let firebaseUser = require("./firebaseUser");
 
 let apiKeys = {};
 let uid = "";
+let searchedMovie = "";
 
 
 function createLogoutButton(){
@@ -27,6 +28,7 @@ function displaySearchMovie(movieSearched){
 	searchMovie(movieSearched).then((returnedMovie)=>{
 		$("#movieSearchArea").html("");
 		console.log("returned Movie: ", returnedMovie);
+		searchedMovie = returnedMovie;
 		let searchedMovieCard =
 			`<div class="row">
 				<div class="col s6">
@@ -42,26 +44,26 @@ function displaySearchMovie(movieSearched){
 			        </div>
 			        <div class="card-action">
 								<p>Rating</p>
-								<p>
-						      <input name="movieRating" type="radio" id="rating_1" />
+								<p id="radio-wrapper">
+						      <input name="movieRating" type="radio" id="rating_1" value="1" />
 									<label for="rating_1">1</label>
 
-						      <input name="movieRating" type="radio" id="rating_2" />
+						      <input name="movieRating" type="radio" id="rating_2" value="2"/>
 									<label for="rating_2">2</label>
 
-						      <input name="movieRating" type="radio" id="rating_3" />
+						      <input name="movieRating" type="radio" id="rating_3" value="3" />
 									<label for="rating_3">3</label>
 
-						      <input name="movieRating" type="radio" id="rating_4" />
+						      <input name="movieRating" type="radio" id="rating_4" value="4" />
 									<label for="rating_4">4</label>
 
-						      <input name="movieRating" type="radio" id="rating_5" />
+						      <input name="movieRating" type="radio" id="rating_5" value="5" />
 									<label for="rating_5">5</label>
 						    </p>
 
 								<p>
-									<input type="checkbox" id="test5" />
-									<label for="test5">I've seen it</label>
+									<input type="checkbox" id="seenItCheckbox" />
+									<label for="seenItCheckbox">I've seen it</label>
 								</p>
 			          <button class="btn btn-primary save-btn">Save to My Collection</button>
 			        </div>
@@ -71,15 +73,14 @@ function displaySearchMovie(movieSearched){
 		//get elements from data and append to DOM
 		$("#movieSearchArea").html(searchedMovieCard);
 		//add save button & rate button & seen/unseen checkbox? radio?
-		$("#movieSearchArea").append(`<img src="${returnedMovie.Poster}"><h6>${returnedMovie.Title}</h6>`);
 	});
 }
 
 function getSavedMovies(sortCategory, sortType){
-	//getMovieSearches 
+	//getMovieSearches
 	firebaseMethods.getMovies(apiKeys, uid).then((savedMovies)=>{
 		console.log("savedMovies", savedMovies);
-		sortSavedMovies(savedMovies, sortCategory, sortType);	
+		sortSavedMovies(savedMovies, sortCategory, sortType);
 	}).catch( (error)=>{
 		console.log("error", error);
 	});
@@ -98,19 +99,19 @@ function sortSavedMovies(savedMovies, sortCategory, sortType){
 			}
 		});
 }
+
 function orderMovies(assortedMovies, sortCategory, sortType){
 	let property = sortCategory;
-	let sortedByRating = assortedMovies.slice(0);	
+	let sortedByRating = assortedMovies.slice(0);
 
 	sortedByRating.sort( (a,b)=> {
 		return a.property - b.property;
 	});
 	console.log("orderedMovie", sortedByRating);
-	// display movies
 	// displayMovies(sortedByRating, sortType);
 	//sortedByRating == array of movies sorted by property
 	//sortType = watched/unwatched
-	
+
 }
 //Load page
 $(document).ready(function() {
@@ -195,6 +196,31 @@ $(document).ready(function() {
 		$("#inputUsername").val("");
 		$("#login-container").removeClass("hide");
 		$("#movie-container").addClass("hide");
+	});
+
+	$("body").on("click", ".save-btn", function() {
+		let userRating = $('#radio-wrapper input[name=movieRating]:checked').val();
+		let watched = "";
+		console.log("userRating", userRating);
+		if($('#seenItCheckbox').prop('checked')) {
+			watched = true;
+		} else {
+			watched = false;
+		}
+		let newlySavedMovie = {
+			"title": searchedMovie.Title,
+			"director": searchedMovie.Director,
+			"year": searchedMovie.Year,
+			"cast": searchedMovie.Cast,
+			"imdbRating": searchedMovie.imdbRating,
+			"userRating": userRating,
+			"watched": watched,
+			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
+			"uid": uid
+		};
+		console.log("newlySavedMovie: ",newlySavedMovie);
+		firebaseMethods.addMovie(apiKeys, newlySavedMovie);
+		$("#movieSearchArea").html("");
 	});
 
 });

@@ -85,41 +85,31 @@ function getSavedMovies(sortCategory, sortType){
 	});
 }
 function sortSavedMovies(savedMovies, sortCategory, sortType){
-	let seenMovies = [];
-	let unseenMovies = [];
+	let seenMovies= [];
+	let unseenMovies= [];
 		$.each(savedMovies, (index, movie)=>{
 			if (movie.watched){
-				// display movie
 				seenMovies.push(movie);
-				if (movie.watched === sortType){
-					console.log("seenMovies", seenMovies);
-					orderMovies(seenMovies, sortCategory);
-				} else {
-					//display seen movies
-				}
+				orderMovies(seenMovies, sortCategory, sortType);
 			}
 			if (!movie.watched) {
-				console.log("unwatched");
 				unseenMovies.push(movie);
-				if (sortCategory === "imdbRating"){
-					console.log("unseenMovies", unseenMovies);
-					orderMovies(unseenMovies, sortCategory);
-				} else {
-					console.log("unseenMovies", unseenMovies);
-					//display unseen movies
-				}
+				orderMovies(unseenMovies, sortCategory, sortType);
 			}
 		});
 }
-function orderMovies(savedMovies, sortCategory){
-//append seen movies to $("#seenMovies")
-	let property = sortCategory
-	let bysortCategory = savedMovies.slice(0);
-	bysortCategory.sort( (a,b)=> {
+function orderMovies(assortedMovies, sortCategory, sortType){
+	let property = sortCategory;
+	let sortedByRating = assortedMovies.slice(0);	
+
+	sortedByRating.sort( (a,b)=> {
 		return a.property - b.property;
 	});
-	console.log("orderedMovie", bysortCategory);
+	console.log("orderedMovie", sortedByRating);
 	// display movies
+	// displayMovies(sortedByRating, sortType);
+	//sortedByRating == array of movies sorted by property
+	//sortType = watched/unwatched
 	
 }
 //Load page

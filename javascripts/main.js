@@ -100,7 +100,7 @@ function sortSavedMovies(savedMovies, sortCategory, sortType){
 			if (!movie.watched) {
 				console.log("unwatched");
 				unseenMovies.push(movie);
-				if (sortType === "userRating"){
+				if (sortCategory === "imdbRating"){
 					console.log("unseenMovies", unseenMovies);
 					orderMovies(unseenMovies, sortCategory);
 				} else {
@@ -112,9 +112,10 @@ function sortSavedMovies(savedMovies, sortCategory, sortType){
 }
 function orderMovies(savedMovies, sortCategory){
 //append seen movies to $("#seenMovies")
+	let property = sortCategory
 	let bysortCategory = savedMovies.slice(0);
 	bysortCategory.sort( (a,b)=> {
-		return b.sortCategory - a.sortCategory;
+		return a.property - b.property;
 	});
 	console.log("orderedMovie", bysortCategory);
 	// display movies
@@ -171,7 +172,7 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
-			getSavedMovies("imdbRating", true);
+			getSavedMovies("userRating", true);
 		});
 	});
 
@@ -189,7 +190,7 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
-			getSavedMovies("imdbRating", true);
+			getSavedMovies("userRating", true);
 
 		});
 	});

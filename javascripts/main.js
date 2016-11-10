@@ -44,6 +44,7 @@ function displaySearchMovie(movieSearched){
 							<p>Plot: ${returnedMovie.Plot}</p>
 								<br />
 							<p>IMDB Rating: ${returnedMovie.imdbRating}</p>
+							<button class="btn btn-primary youtube-btn">Trailer</button>
 			        </div>
 			        <div class="card-action">
 								<p>
@@ -205,7 +206,7 @@ $(document).ready(function() {
 				$("#login-container").addClass("hide");
 				$("#movie-container").removeClass("hide");
 				getSavedMovies("userRating", true);
-				
+
 			});
 		});
 	});
@@ -253,6 +254,17 @@ $(document).ready(function() {
 		console.log("newlySavedMovie: ",newlySavedMovie);
 		firebaseMethods.addMovie(apiKeys, newlySavedMovie);
 		$("#movieSearchArea").html("");
+	});
+
+	$("body").on("click", ".youtube-btn", function() {
+		var win = window.open(`https://www.youtube.com/results?search_query=${searchedMovie.Title}+trailer`);
+		if (win) {
+		    //Browser has allowed it to be opened
+		    win.focus();
+		} else {
+		    //Browser has blocked it
+		    alert('Please allow popups for this website');
+		}
 	});
 
 });

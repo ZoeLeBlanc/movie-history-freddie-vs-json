@@ -15,6 +15,7 @@ let searchedMovie = "";
 
 function createLogoutButton(){
 	firebaseUser.getUser(apiKeys, uid).then(function(userResponse){
+		console.log("userResponse", userResponse);
 		$("#logout-container").html("");
 		let currentUsername = userResponse.username;
 		let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT ${currentUsername}</button>`;
@@ -40,7 +41,9 @@ function displaySearchMovie(movieSearched){
 			      <div class="card-stacked">
 			        <div class="card-content">
 							<p>Starring ${returnedMovie.Actors}</p><br />
-							<p>${returnedMovie.Plot}</p>
+							<p>Plot: ${returnedMovie.Plot}</p>
+								<br />
+							<p>IMDB Rating: ${returnedMovie.imdbRating}</p>
 			        </div>
 			        <div class="card-action">
 								<p>
@@ -183,6 +186,27 @@ $(document).ready(function() {
 			$("#movie-container").removeClass("hide");
 			getSavedMovies("userRating", true);
 
+		});
+	});
+	$("#loginGoogleButton").on("click", function(){
+
+		firebaseAuth.loginGoogle().then(function(loginResponse){
+			console.log("loginResponse", loginResponse);
+			uid = loginResponse.user.uid;
+			let newUser = {
+				"username": loginResponse.user.displayName,
+				"uid": loginResponse.user.uid
+			};
+			console.log("newUser", newUser);
+
+			firebaseUser.addUser(apiKeys, newUser).then(function(addUserResponse){
+				console.log("addUserResponse", addUserResponse);
+				createLogoutButton();
+				$("#login-container").addClass("hide");
+				$("#movie-container").removeClass("hide");
+				getSavedMovies("userRating", true);
+				
+			});
 		});
 	});
 

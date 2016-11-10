@@ -6,12 +6,13 @@ function getMovies(apiKeys, uid){
 				method:'GET',
 				url:`${apiKeys.databaseURL}/movies.json?orderBy="uid"&equalTo="${uid}"`
 			}).then( (response)=>{
+				console.log("response", response);
 				let movies = [];
 				Object.keys(response).forEach( (key)=> {
 					response[key].id = key;
 					movies.push(response[key]);
 				});
-				resolve(response);
+				resolve(movies);
 			},(error)=>{
 				reject(error);
 			});

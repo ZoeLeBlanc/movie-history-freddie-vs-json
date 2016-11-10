@@ -37,3 +37,6 @@ input[type=text]:focus:not([readonly]) {
 
 #loginGoogleButton {
   background-color: #2196f3; }
+
+.movie-card {
+  display: inline; }

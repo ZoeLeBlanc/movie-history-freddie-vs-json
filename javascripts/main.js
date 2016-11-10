@@ -15,6 +15,7 @@ let searchedMovie = "";
 
 function createLogoutButton(){
 	firebaseUser.getUser(apiKeys, uid).then(function(userResponse){
+		console.log("userResponse", userResponse);
 		$("#logout-container").html("");
 		let currentUsername = userResponse.username;
 		let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT ${currentUsername}</button>`;
@@ -31,8 +32,8 @@ function displaySearchMovie(movieSearched){
 		searchedMovie = returnedMovie;
 		let searchedMovieCard =
 			`<div class="row">
-				<div class="col s6">
-			    <h4 class="header">${returnedMovie.Title} (${returnedMovie.Year})</h2>
+				<div class="col s8 offset-s2">
+				<h2 class="header">${returnedMovie.Title} (${returnedMovie.Year})</h2>
 			    <div class="card horizontal">
 			      <div class="card-image">
 			        <img src="${returnedMovie.Poster}" width="75%" height="75%">
@@ -40,31 +41,32 @@ function displaySearchMovie(movieSearched){
 			      <div class="card-stacked">
 			        <div class="card-content">
 							<p>Starring ${returnedMovie.Actors}</p><br />
-							<p>${returnedMovie.Plot}</p>
+							<p>Plot: ${returnedMovie.Plot}</p>
+								<br />
+							<p>IMDB Rating: ${returnedMovie.imdbRating}</p>
 			        </div>
 			        <div class="card-action">
-								<p>Rating</p>
-								<p id="radio-wrapper">
+								<p>
+								<input type="checkbox" id="seenItCheckbox" />
+								<label for="seenItCheckbox">I've seen it</label>
+								</p>
+								<p id="radio-wrapper" class="hide">
 						      <input name="movieRating" type="radio" id="rating_1" value="1" />
-									<label for="rating_1">1</label>
+									<label for="rating_1"><i class="fa fa-star" aria-hidden="true"></i></label>
 
 						      <input name="movieRating" type="radio" id="rating_2" value="2"/>
-									<label for="rating_2">2</label>
+									<label for="rating_2"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 
 						      <input name="movieRating" type="radio" id="rating_3" value="3" />
-									<label for="rating_3">3</label>
+									<label for="rating_3"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 
 						      <input name="movieRating" type="radio" id="rating_4" value="4" />
-									<label for="rating_4">4</label>
+									<label for="rating_4"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 
 						      <input name="movieRating" type="radio" id="rating_5" value="5" />
-									<label for="rating_5">5</label>
+									<label for="rating_5"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 						    </p>
 
-								<p>
-									<input type="checkbox" id="seenItCheckbox" />
-									<label for="seenItCheckbox">I've seen it</label>
-								</p>
 			          <button class="btn btn-primary save-btn">Save to My Collection</button>
 			        </div>
 			      </div>
@@ -186,6 +188,27 @@ $(document).ready(function() {
 
 		});
 	});
+	$("#loginGoogleButton").on("click", function(){
+
+		firebaseAuth.loginGoogle().then(function(loginResponse){
+			console.log("loginResponse", loginResponse);
+			uid = loginResponse.user.uid;
+			let newUser = {
+				"username": loginResponse.user.displayName,
+				"uid": loginResponse.user.uid
+			};
+			console.log("newUser", newUser);
+
+			firebaseUser.addUser(apiKeys, newUser).then(function(addUserResponse){
+				console.log("addUserResponse", addUserResponse);
+				createLogoutButton();
+				$("#login-container").addClass("hide");
+				$("#movie-container").removeClass("hide");
+				getSavedMovies("userRating", true);
+				
+			});
+		});
+	});
 
 	$("#logout-container").on("click", "#logoutButton", function(){
 		firebaseAuth.logoutUser();
@@ -196,6 +219,15 @@ $(document).ready(function() {
 		$("#inputUsername").val("");
 		$("#login-container").removeClass("hide");
 		$("#movie-container").addClass("hide");
+	});
+
+	$("body").on("change", "#seenItCheckbox", function() {
+		if($('#seenItCheckbox').prop('checked')) {
+			$("#radio-wrapper").removeClass("hide");
+		} else {
+			$("#radio-wrapper").addClass("hide");
+
+		}
 	});
 
 	$("body").on("click", ".save-btn", function() {

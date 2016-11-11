@@ -105,22 +105,22 @@ function getSavedMovies(){
 				//seen movie list
 				let newMovieList = 
 				`<div class="col s4 offset-s1">
-			    <h4 class="header">${movie.title} (${movie.year})</h2>
 			    <div class="card horizontal">
 			      
 			      <div class="card-stacked">
-			        <div class="card-content">
-							<p>Starring ${movie.cast}</p><br />
+			        <div class="card-content" data-fbid="${movie.id}">
+			    	<h4 class="header">${movie.title} (${movie.year})</h2>
+							<p>Starring: ${movie.cast}</p><br />
 							<p>Plot: ${movie.plot}</p>
 								<br />
 							<p>IMDB Rating: ${movie.imdbRating}</p>
 			        </div>
 			        <div class="card-action">
 								<p>
-								<input type="checkbox" id="seenItCheckbox" />
+								<input type="checkbox" class="seenIt" checked/>
 								<label for="seenItCheckbox">I've seen it</label>
 								</p>
-								<p id="radio-wrapper" class="hide">
+								<p id="radio-wrapper">
 						      <input name="movieRating" type="radio" id="rating_1" value="1" />
 									<label for="rating_1"><i class="fa fa-star" aria-hidden="true"></i></label>
 
@@ -137,29 +137,30 @@ function getSavedMovies(){
 									<label for="rating_5"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 						    </p>
 
-			          <button class="btn btn-primary" id="delete-btn" data-fbid="${movie.id}">Delete </button>
+			          <button class="btn btn-primary delete-btn" data-fbid="${movie.id}">Delete </button>
 			        </div>
 			      </div>
 			    </div>`;
 
 				$("#seenMovies").append(newMovieList);
+
 			} else {
 				//unseen movie list
 				let newMovieList = 
 				`<div class="col s4 offset-s1">
-			    <h4 class="header">${movie.title} (${movie.year})</h2>
 			    <div class="card horizontal">
 			      
 			      <div class="card-stacked">
 			        <div class="card-content">
-							<p>Starring ${movie.cast}</p><br />
+			    	<h4 class="header">${movie.title} (${movie.year})</h2>
+							<p>Starring: ${movie.cast}</p><br />
 							<p>Plot: ${movie.plot}</p>
 								<br />
 							<p>IMDB Rating: ${movie.imdbRating}</p>
 			        </div>
 			        <div class="card-action">
 								<p>
-								<input type="checkbox" id="seenItCheckbox" />
+								<input type="checkbox" class="seenIt" />
 								<label for="seenItCheckbox">I've seen it</label>
 								</p>
 								<p id="radio-wrapper" class="hide">
@@ -365,12 +366,21 @@ $(document).ready(function() {
 	});
 
 
-	$("#savedMovies").on("click", ".delete-btn", function(){
+	$("#seenMovies").on("click", ".delete-btn", function(){
 		let movieId = $(this).data("fbid");
 		console.log("movieid", movieId);
 		firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
 			getSavedMovies();
 		});
 	});
+
+	$("#unseenMovies").on("click", ".delete-btn", function(){
+		let movieId = $(this).data("fbid");
+		console.log("movieid", movieId);
+		firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+			getSavedMovies();
+		});
+	});
+
 
 });

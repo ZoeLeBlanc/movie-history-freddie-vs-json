@@ -37,7 +37,7 @@ function deleteMovie(apiKeys , movieID){
 		return new Promise( (resolve, reject)=> {
 			$.ajax({
 				method:'DELETE',
-				url:`${apiKeys.databaseURL}/searches/${movieID}.json`
+				url:`${apiKeys.databaseURL}/movies/${movieID}.json`
 			}).then( (response)=>{
 				console.log("response from delete", response);
 				resolve(response);

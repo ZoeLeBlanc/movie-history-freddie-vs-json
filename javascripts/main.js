@@ -110,7 +110,7 @@ function getSavedMovies(){
 			      
 			      <div class="card-stacked">
 			        <div class="card-content">
-							<p>Starring ${movie.actors}</p><br />
+							<p>Starring ${movie.cast}</p><br />
 							<p>Plot: ${movie.plot}</p>
 								<br />
 							<p>IMDB Rating: ${movie.imdbRating}</p>
@@ -152,8 +152,8 @@ function getSavedMovies(){
 			      
 			      <div class="card-stacked">
 			        <div class="card-content">
-							<p>Starring ${movie.Actors}</p><br />
-							<p>Plot: ${movie.Plot}</p>
+							<p>Starring ${movie.cast}</p><br />
+							<p>Plot: ${movie.plot}</p>
 								<br />
 							<p>IMDB Rating: ${movie.imdbRating}</p>
 			        </div>
@@ -345,15 +345,16 @@ $(document).ready(function() {
 			watched = false;
 		}
 		let newlySavedMovie = {
-			"title": searchedMovie.Title,
+			"cast": searchedMovie.Actors,
 			"director": searchedMovie.Director,
-			"year": searchedMovie.Year,
-			"cast": searchedMovie.Cast,
 			"imdbRating": searchedMovie.imdbRating,
+			"plot": searchedMovie.Plot,
+			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
+			"title": searchedMovie.Title,
+			"uid": uid,
 			"userRating": userRating,
 			"watched": watched,
-			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-			"uid": uid
+			"year": searchedMovie.Year
 		};
 		console.log("newlySavedMovie: ",newlySavedMovie);
 		firebaseMethods.addMovie(apiKeys, newlySavedMovie);

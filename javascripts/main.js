@@ -11,6 +11,7 @@ let firebaseUser = require("./firebaseUser");
 let apiKeys = {};
 let uid = "";
 let searchedMovie = "";
+let currentUser = "";
 
 let seenMoviesDiv = $("#seenMovies");
 let unseenMoviesDiv = $("#unseenMovies");
@@ -20,8 +21,7 @@ function createLogoutButton(){
 	firebaseUser.getUser(apiKeys, uid).then(function(userResponse){
 		console.log("userResponse", userResponse);
 		$("#logout-container").html("");
-		let currentUsername = userResponse.username;
-		let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT ${currentUsername}</button>`;
+		let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT ${currentUser}</button>`;
 		$("#logout-container").append(logoutButton);
 	});
 }
@@ -84,9 +84,9 @@ function displaySearchMovie(movieSearched){
 
 // function displaySavedMovies(movieArray, divID){
 // 	console.log("movieArray", movieArray);
-	
+
 // 	movieArray.forEach(function(item){
-		
+
 // 		let newMovieList =`<div><img src="${item.poster}"></div>`;
 // 		//console.log("newMovieList", newMovieList);
 // 		divID.append(newMovieList);
@@ -104,10 +104,11 @@ function getSavedMovies(){
 		movies.forEach( (function(movie){
 			if (movie.watched === true){
 				//seen movie list
-				let newMovieList = 
+				let newMovieList =
 				`<div class="col s4 offset-s1" data-seen="${movie.watched}">
+
 			    <div class="card horizontal">
-			      
+
 			      <div class="card-stacked">
 			        <div class="card-content" data-fbid="${movie.id}">
 			    	<h4 class="header">${movie.title} (${movie.year})</h2>
@@ -117,7 +118,7 @@ function getSavedMovies(){
 							<p>IMDB Rating: ${movie.imdbRating}</p>
 			        </div>
 			        <div class="card-action">
-								
+
 								<p id="radio-wrapper">
 						      	<h5>User Rating: ${movie.userRating} Stars</h5>
 						    </p>
@@ -133,8 +134,9 @@ function getSavedMovies(){
 				//unseen movie list
 				let newMovieList = 
 				`<div class="col s4 offset-s1" data-seen="${movie.watched}">
+
 			    <div class="card horizontal">
-			      
+
 			      <div class="card-stacked">
 			        <div class="card-content">
 			    	<h4 class="header">${movie.title} (${movie.year})</h2>
@@ -281,12 +283,13 @@ $(document).ready(function() {
 	});
 	$("#loginGoogleButton").on("click", function(){
 
-		firebaseAuth.loginGoogle().then(function(loginResponse){
+		firebaseAuth.loginGoogle().then(function(loginResponse){//shit
 			console.log("loginResponse", loginResponse);
+			currentUser = loginResponse.user.providerData[0].displayName;
 			uid = loginResponse.user.uid;
 			let newUser = {
-				"username": loginResponse.user.displayName,
-				"uid": loginResponse.user.uid
+				"username": currentUser,
+				"uid": uid
 			};
 			console.log("newUser", newUser);
 
@@ -297,7 +300,7 @@ $(document).ready(function() {
 				$("#movie-container").removeClass("hide");
 
 				getSavedMovies();
-				
+
 
 			});
 		});
@@ -375,7 +378,7 @@ $(document).ready(function() {
 	$("#unseenMovies").on("change", "input[type='checkbox']", function(){
 
 		console.log($(this).find(".radio-wrapper"));
-		
+
 
 		if($(this).prop('checked')) {
 			$(".radio-wrapper").removeClass("hide");

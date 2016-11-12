@@ -47,7 +47,24 @@ function deleteMovie(apiKeys , movieID){
 			});
 		});
 }
+
+function editMovie(apiKeys, itemId, editedMovie){
+		return new Promise((resolve, reject)=>{
+			$.ajax({
+				method:'PUT',
+				url:`${apiKeys.databaseURL}/movies/${itemId}.json`,
+				data: JSON.stringify(editedMovie),
+				dataType:'json'
+			}).then((response)=>{
+				console.log("response from PUT", response);
+				resolve(response);
+			}, (error)=>{
+				reject(error);
+			});
+		});
+}
+
 let firebaseMethods = {
-	getMovies, addMovie, deleteMovie
+	getMovies, addMovie, deleteMovie, editMovie
 };
 module.exports = firebaseMethods;

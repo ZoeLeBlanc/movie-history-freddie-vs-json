@@ -105,7 +105,8 @@ function getSavedMovies(){
 			if (movie.watched === true){
 				//seen movie list
 				let newMovieList =
-				`<div class="col s4 offset-s1">
+				`<div class="col s4 offset-s1" data-seen="${movie.watched}">
+
 			    <div class="card horizontal">
 
 			      <div class="card-stacked">
@@ -117,25 +118,9 @@ function getSavedMovies(){
 							<p>IMDB Rating: ${movie.imdbRating}</p>
 			        </div>
 			        <div class="card-action">
-								<p>
-								<input type="checkbox" class="seenIt" checked/>
-								<label for="seenItCheckbox">I've seen it</label>
-								</p>
+
 								<p id="radio-wrapper">
-						      <input name="movieRating" type="radio" id="rating_1" value="1" />
-									<label for="rating_1"><i class="fa fa-star" aria-hidden="true"></i></label>
-
-						      <input name="movieRating" type="radio" id="rating_2" value="2"/>
-									<label for="rating_2"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
-
-						      <input name="movieRating" type="radio" id="rating_3" value="3" />
-									<label for="rating_3"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
-
-						      <input name="movieRating" type="radio" id="rating_4" value="4" />
-									<label for="rating_4"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
-
-						      <input name="movieRating" type="radio" id="rating_5" value="5" />
-									<label for="rating_5"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						      	<h5>User Rating: ${movie.userRating} Stars</h5>
 						    </p>
 
 			          <button class="btn btn-primary delete-btn" data-fbid="${movie.id}">Delete </button>
@@ -148,7 +133,8 @@ function getSavedMovies(){
 			} else {
 				//unseen movie list
 				let newMovieList =
-				`<div class="col s4 offset-s1">
+				`<div class="col s4 offset-s1" data-seen="${movie.watched}">
+
 			    <div class="card horizontal">
 
 			      <div class="card-stacked">
@@ -161,35 +147,132 @@ function getSavedMovies(){
 			        </div>
 			        <div class="card-action">
 								<p>
-								<input type="checkbox" class="seenIt" />
-								<label for="seenItCheckbox">I've seen it</label>
+								<input type="checkbox" id="seenIt_${movie.id}" />
+								<label for="seenIt_${movie.id}">I've seen it</label>
 								</p>
-								<p id="radio-wrapper" class="hide">
-						      <input name="movieRating" type="radio" id="rating_1" value="1" />
-									<label for="rating_1"><i class="fa fa-star" aria-hidden="true"></i></label>
+								<p class="radio-wrapper hide">
+						      <input name="movieRating" type="radio" id="rating_1_${movie.id}" value="1" />
+									<label for="rating_1_${movie.id}"><i class="fa fa-star" aria-hidden="true"></i></label>
 
-						      <input name="movieRating" type="radio" id="rating_2" value="2"/>
-									<label for="rating_2"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						      <input name="movieRating" type="radio" id="rating_2_${movie.id}" value="2"/>
+									<label for="rating_2_${movie.id}"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 
-						      <input name="movieRating" type="radio" id="rating_3" value="3" />
-									<label for="rating_3"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						      <input name="movieRating" type="radio" id="rating_3_${movie.id}" value="3" />
+									<label for="rating_3_${movie.id}"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 
-						      <input name="movieRating" type="radio" id="rating_4" value="4" />
-									<label for="rating_4"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						      <input name="movieRating" type="radio" id="rating_4_${movie.id}" value="4" />
+									<label for="rating_4_${movie.id}"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 
-						      <input name="movieRating" type="radio" id="rating_5" value="5" />
-									<label for="rating_5"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						      <input name="movieRating" type="radio" id="rating_5_${movie.id}" value="5" />
+									<label for="rating_5_${movie.id}"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
 						    </p>
 
 			          <button class="btn btn-primary delete-btn" data-fbid="${movie.id}">Delete</button>
 			        </div>
 			      </div>
 			    </div>`;
-
+				// $(`#seenIt_${movie.id}`).on("change", function() {
+				// 	console.log("seent it");
+				// });
+				$("body").on("change", `#rating_1_${movie.id}`, function() {
+					let movieId = $(this).parent().next().data("fbid");
+					let userRating = 1;
+					let newlySavedMovie = {
+						"cast": movie.cast,
+						"director": movie.director,
+						"imdbRating": movie.imdbRating,
+						"plot": movie.plot,
+						"title": movie.title,
+						"uid": uid,
+						"userRating": userRating,
+						"watched": true,
+						"year": movie.year
+					};
+					firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+						getSavedMovies();
+					});
+					firebaseMethods.addMovie(apiKeys, newlySavedMovie);
+				});
+				$("body").on("change", `#rating_2_${movie.id}`, function() {
+					let movieId = $(this).parent().next().data("fbid");
+					let userRating = 2;
+					let newlySavedMovie = {
+						"cast": movie.cast,
+						"director": movie.director,
+						"imdbRating": movie.imdbRating,
+						"plot": movie.plot,
+						"title": movie.title,
+						"uid": uid,
+						"userRating": userRating,
+						"watched": true,
+						"year": movie.year
+					};
+					firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+						getSavedMovies();
+					});
+					firebaseMethods.addMovie(apiKeys, newlySavedMovie);
+				});
+				$("body").on("change", `#rating_3_${movie.id}`, function() {
+					let movieId = $(this).parent().next().data("fbid");
+					let userRating = 3;
+					let newlySavedMovie = {
+						"cast": movie.cast,
+						"director": movie.director,
+						"imdbRating": movie.imdbRating,
+						"plot": movie.plot,
+						"title": movie.title,
+						"uid": uid,
+						"userRating": userRating,
+						"watched": true,
+						"year": movie.year
+					};
+					firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+						getSavedMovies();
+					});
+					firebaseMethods.addMovie(apiKeys, newlySavedMovie);
+				});
+				$("body").on("change", `#rating_4_${movie.id}`, function() {
+					let movieId = $(this).parent().next().data("fbid");
+					let userRating = 4;
+					let newlySavedMovie = {
+						"cast": movie.cast,
+						"director": movie.director,
+						"imdbRating": movie.imdbRating,
+						"plot": movie.plot,
+						"title": movie.title,
+						"uid": uid,
+						"userRating": userRating,
+						"watched": true,
+						"year": movie.year
+					};
+					firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+						getSavedMovies();
+					});
+					firebaseMethods.addMovie(apiKeys, newlySavedMovie);
+				});
+				$("body").on("change", `#rating_5_${movie.id}`, function() {
+					let movieId = $(this).parent().next().data("fbid");
+					let userRating = 5;
+					let newlySavedMovie = {
+						"cast": movie.cast,
+						"director": movie.director,
+						"imdbRating": movie.imdbRating,
+						"plot": movie.plot,
+						"title": movie.title,
+						"uid": uid,
+						"userRating": userRating,
+						"watched": true,
+						"year": movie.year
+					};
+					firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+						getSavedMovies();
+					});
+					firebaseMethods.addMovie(apiKeys, newlySavedMovie);
+				});
 				$("#unseenMovies").append(newMovieList);
+
 			}
 		}));
-		//sortSavedMovies(savedMovies, sortCategory, sortType);
 	}).catch( (error)=>{
 		console.log("error", error);
 	});
@@ -249,6 +332,7 @@ $(document).ready(function() {
 		let email = $("#inputEmail").val();
 		let password = $("#inputPassword").val();
 		let username = $("#inputUsername").val();
+		currentUser = $("#inputUsername").val();
 
 		let user = {
 			"email": email,
@@ -288,6 +372,7 @@ $(document).ready(function() {
 
 		firebaseAuth.loginUser(user).then(function(loginResponse){
 			uid = loginResponse.uid;
+			currentUser = email;
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
@@ -341,7 +426,7 @@ $(document).ready(function() {
 	});
 
 	$("body").on("click", ".save-btn", function() {
-		let userRating = $('#radio-wrapper input[name=movieRating]:checked').val();
+		let userRating = $('input[name=movieRating]:checked').val();
 		let watched = "";
 		console.log("userRating", userRating);
 		if($('#seenItCheckbox').prop('checked')) {
@@ -362,6 +447,7 @@ $(document).ready(function() {
 			"year": searchedMovie.Year
 		};
 		console.log("newlySavedMovie: ",newlySavedMovie);
+		console.log("userRating", userRating);
 		firebaseMethods.addMovie(apiKeys, newlySavedMovie);
 		$("#movieSearchArea").html("");
 		seenMoviesDiv.html("");
@@ -369,7 +455,7 @@ $(document).ready(function() {
 		getSavedMovies();
 	});
 
-
+	//delete buttons
 	$("#seenMovies").on("click", ".delete-btn", function(){
 		let movieId = $(this).data("fbid");
 		console.log("movieid", movieId);
@@ -385,6 +471,37 @@ $(document).ready(function() {
 		firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
 			getSavedMovies();
 		});
+	});
+
+	//checkbox in saved & to watch
+	$("#unseenMovies").on("change", "input[type='checkbox']", function(){
+
+		if($(this).closest("input[type='checkbox']").prop("checked")) {
+			$(this).parent().next().removeClass("hide");
+			console.log("should show it");
+		} else {
+			$(this).parent().next().addClass("hide");
+			console.log("should hide it");
+
+		}
+
+
+		// let updatedWatched = $(this).closest("div").data("seen");
+		// let itemId = $(this).parent().data("fbid");
+		// let movie = $(this).siblings(".seenIt").html();
+		// console.log("this", this);
+		// console.log("movie", movie);
+		// console.log("updatedWatched", updatedWatched);
+
+		// let editedMovie = {
+		// 	"movie": movie,
+		// 	"watched": !updatedWatched,
+		// 	"uid": uid
+		// };
+
+		// firebaseMethods.editMovie(apiKeys, itemId, editedMovie).then(function(){
+		// 	getSavedMovies();
+		// });
 	});
 
 

@@ -132,7 +132,7 @@ function getSavedMovies(){
 
 			} else {
 				//unseen movie list
-				let newMovieList = 
+				let newMovieList =
 				`<div class="col s4 offset-s1" data-seen="${movie.watched}">
 
 			    <div class="card horizontal">
@@ -171,7 +171,9 @@ function getSavedMovies(){
 			        </div>
 			      </div>
 			    </div>`;
-
+				// $(`#seenIt_${movie.id}`).on("change", function() {
+				// 	console.log("seent it");
+				// });
 				$("#unseenMovies").append(newMovieList);
 
 			}
@@ -377,13 +379,12 @@ $(document).ready(function() {
 	//checkbox in saved & to watch
 	$("#unseenMovies").on("change", "input[type='checkbox']", function(){
 
-		console.log($(this).find(".radio-wrapper"));
-
-
-		if($(this).prop('checked')) {
-			$(".radio-wrapper").removeClass("hide");
+		if($(this).closest("input[type='checkbox']").prop("checked")) {
+			$(this).parent().next().removeClass("hide");
+			console.log("should show it");
 		} else {
-			$(".radio-wrapper").addClass("hide");
+			$(this).parent().next().addClass("hide");
+			console.log("should hide it");
 
 		}
 

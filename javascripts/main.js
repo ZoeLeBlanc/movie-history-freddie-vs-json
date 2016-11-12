@@ -12,6 +12,9 @@ let apiKeys = {};
 let uid = "";
 let searchedMovie = "";
 
+let seenMoviesDiv = $("#seenMovies");
+let unseenMoviesDiv = $("#unseenMovies");
+
 
 function createLogoutButton(){
 	firebaseUser.getUser(apiKeys, uid).then(function(userResponse){
@@ -79,48 +82,151 @@ function displaySearchMovie(movieSearched){
 	});
 }
 
-function getSavedMovies(sortCategory, sortType){
+// function displaySavedMovies(movieArray, divID){
+// 	console.log("movieArray", movieArray);
+	
+// 	movieArray.forEach(function(item){
+		
+// 		let newMovieList =`<div><img src="${item.poster}"></div>`;
+// 		//console.log("newMovieList", newMovieList);
+// 		divID.append(newMovieList);
+// 	});
+
+// }
+
+function getSavedMovies(){
 	//getMovieSearches
-	firebaseMethods.getMovies(apiKeys, uid).then((savedMovies)=>{
-		console.log("savedMovies", savedMovies);
-		sortSavedMovies(savedMovies, sortCategory, sortType);
+	firebaseMethods.getMovies(apiKeys, uid).then((movies)=>{
+		//console.log("savedMovies", movies);
+		seenMoviesDiv.html("");
+		unseenMoviesDiv.html("");
+
+		movies.forEach( (function(movie){
+			if (movie.watched === true){
+				//seen movie list
+				let newMovieList = 
+				`<div class="col s4 offset-s1">
+			    <div class="card horizontal">
+			      
+			      <div class="card-stacked">
+			        <div class="card-content" data-fbid="${movie.id}">
+			    	<h4 class="header">${movie.title} (${movie.year})</h2>
+							<p>Starring: ${movie.cast}</p><br />
+							<p>Plot: ${movie.plot}</p>
+								<br />
+							<p>IMDB Rating: ${movie.imdbRating}</p>
+			        </div>
+			        <div class="card-action">
+								<p>
+								<input type="checkbox" class="seenIt" checked/>
+								<label for="seenItCheckbox">I've seen it</label>
+								</p>
+								<p id="radio-wrapper">
+						      <input name="movieRating" type="radio" id="rating_1" value="1" />
+									<label for="rating_1"><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_2" value="2"/>
+									<label for="rating_2"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_3" value="3" />
+									<label for="rating_3"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_4" value="4" />
+									<label for="rating_4"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_5" value="5" />
+									<label for="rating_5"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						    </p>
+
+			          <button class="btn btn-primary delete-btn" data-fbid="${movie.id}">Delete </button>
+			        </div>
+			      </div>
+			    </div>`;
+
+				$("#seenMovies").append(newMovieList);
+
+			} else {
+				//unseen movie list
+				let newMovieList = 
+				`<div class="col s4 offset-s1">
+			    <div class="card horizontal">
+			      
+			      <div class="card-stacked">
+			        <div class="card-content">
+			    	<h4 class="header">${movie.title} (${movie.year})</h2>
+							<p>Starring: ${movie.cast}</p><br />
+							<p>Plot: ${movie.plot}</p>
+								<br />
+							<p>IMDB Rating: ${movie.imdbRating}</p>
+			        </div>
+			        <div class="card-action">
+								<p>
+								<input type="checkbox" class="seenIt" />
+								<label for="seenItCheckbox">I've seen it</label>
+								</p>
+								<p id="radio-wrapper" class="hide">
+						      <input name="movieRating" type="radio" id="rating_1" value="1" />
+									<label for="rating_1"><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_2" value="2"/>
+									<label for="rating_2"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_3" value="3" />
+									<label for="rating_3"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_4" value="4" />
+									<label for="rating_4"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+
+						      <input name="movieRating" type="radio" id="rating_5" value="5" />
+									<label for="rating_5"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></label>
+						    </p>
+
+			          <button class="btn btn-primary delete-btn" data-fbid="${movie.id}">Delete</button>
+			        </div>
+			      </div>
+			    </div>`;
+
+				$("#unseenMovies").append(newMovieList);
+			}
+		}));
+		//sortSavedMovies(savedMovies, sortCategory, sortType);
 	}).catch( (error)=>{
 		console.log("error", error);
 	});
 }
-function sortSavedMovies(savedMovies, sortCategory, sortType){
-	let seenMovies= [];
-	let unseenMovies= [];
-		$.each(savedMovies, (index, movie)=>{
-			if (movie.watched){
-				seenMovies.push(movie);
-				orderMovies(seenMovies, sortCategory, sortType);
-			}
-			if (!movie.watched) {
-				unseenMovies.push(movie);
-				orderMovies(unseenMovies, sortCategory, sortType);
-			}
-		});
-}
+// function sortSavedMovies(savedMovies, sortCategory, sortType){
+// 	let seenMovies= [];
+// 	let unseenMovies= [];
+// 		$.each(savedMovies, (index, movie)=>{
+// 			if (movie.watched){
+// 				seenMovies.push(movie);
+// 				displaySavedMovies(seenMovies, seenMoviesDiv);
+// 			}
+// 			if (!movie.watched) {
+// 				unseenMovies.push(movie);
+// 				displaySavedMovies(unseenMovies, unseenMoviesDiv);
+// 			}
+// 		});
+// }
 
-function orderMovies(assortedMovies, sortCategory, sortType){
-	let property = sortCategory;
-	let sortedByRating = assortedMovies.slice(0);
+// function orderMovies(assortedMovies, sortCategory, sortType){
+// 	let property = sortCategory;
+// 	let sortedByRating = assortedMovies.slice(0);
 
-	sortedByRating.sort( (a,b)=> {
-		return a.property - b.property;
-	});
-	console.log("orderedMovie", sortedByRating);
-	// displayMovies(sortedByRating, sortType);
-	//sortedByRating == array of movies sorted by property
-	//sortType = watched/unwatched
+// 	sortedByRating.sort( (a,b)=> {
+// 		return a.property - b.property;
+// 	});
+// 	console.log("orderedMovie", sortedByRating);
+// 	displaySavedMovies(sortedByRating, sortType);
+// 	//sortedByRating == array of movies sorted by property
+// 	//sortType = watched/unwatched
 
-}
+// }
 //Load page
 $(document).ready(function() {
 	credentials().then( (keys)=>{
 		apiKeys = keys;
-		console.log("keys", keys);
+		//console.log("keys", keys);
 		firebase.initializeApp(keys);
 	});
 
@@ -150,7 +256,7 @@ $(document).ready(function() {
 		};
 
 		firebaseAuth.registerUser(user).then(function(registerResponse){
-			console.log("register response", registerResponse);
+			//console.log("register response", registerResponse);
 			let newUser = {
 				"username": username,
 				"uid": registerResponse.uid
@@ -162,12 +268,12 @@ $(document).ready(function() {
 		}).then(function(addUserResponse){
 			return firebaseAuth.loginUser(user);
 		}).then(function(loginResponse){
-			console.log("login response", loginResponse);
+			//console.log("login response", loginResponse);
 			uid = loginResponse.uid;
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
-			getSavedMovies("userRating", true);
+			getSavedMovies();
 		});
 	});
 
@@ -185,7 +291,7 @@ $(document).ready(function() {
 			createLogoutButton();
 			$("#login-container").addClass("hide");
 			$("#movie-container").removeClass("hide");
-			getSavedMovies("userRating", true);
+			getSavedMovies();
 
 		});
 	});
@@ -205,7 +311,9 @@ $(document).ready(function() {
 				createLogoutButton();
 				$("#login-container").addClass("hide");
 				$("#movie-container").removeClass("hide");
-				getSavedMovies("userRating", true);
+
+				getSavedMovies();
+				
 
 			});
 		});
@@ -241,20 +349,44 @@ $(document).ready(function() {
 			watched = false;
 		}
 		let newlySavedMovie = {
-			"title": searchedMovie.Title,
+			"cast": searchedMovie.Actors,
 			"director": searchedMovie.Director,
-			"year": searchedMovie.Year,
-			"cast": searchedMovie.Cast,
 			"imdbRating": searchedMovie.imdbRating,
+			"plot": searchedMovie.Plot,
+			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
+			"title": searchedMovie.Title,
+			"uid": uid,
 			"userRating": userRating,
 			"watched": watched,
-			"poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BNTUxOTdjMDMtMWY1MC00MjkxLTgxYTMtYTM1MjU5ZTJlNTZjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-			"uid": uid
+			"year": searchedMovie.Year
 		};
 		console.log("newlySavedMovie: ",newlySavedMovie);
 		firebaseMethods.addMovie(apiKeys, newlySavedMovie);
 		$("#movieSearchArea").html("");
+		seenMoviesDiv.html("");
+		unseenMoviesDiv.html("");
+		getSavedMovies();
 	});
+
+
+	$("#seenMovies").on("click", ".delete-btn", function(){
+		let movieId = $(this).data("fbid");
+		console.log("movieid", movieId);
+		firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+			getSavedMovies();
+		});
+	});
+
+
+	$("#unseenMovies").on("click", ".delete-btn", function(){
+		let movieId = $(this).data("fbid");
+		console.log("movieid", movieId);
+		firebaseMethods.deleteMovie(apiKeys, movieId).then(function(){
+			getSavedMovies();
+		});
+	});
+
+
 
 	$("body").on("click", ".youtube-btn", function() {
 		var win = window.open(`https://www.youtube.com/results?search_query=${searchedMovie.Title}+trailer`);

@@ -3,6 +3,7 @@
 .brand-logo {
 	margin-left: 1em;
 }
+
 #loginButton {
 	margin-bottom: 1em;
 }
@@ -35,9 +36,14 @@ input[type=text]:focus:not([readonly]) {
     box-shadow: 0 1px 0 0 $accent-color;
 }
 
+
 #radio-wrapper {
 	display: inline;
 }
 #loginGoogleButton {
 	background-color: #2196f3;
+}
+
+.movie-card {
+	display: inline;
 }

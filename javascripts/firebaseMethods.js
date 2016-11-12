@@ -6,12 +6,13 @@ function getMovies(apiKeys, uid){
 				method:'GET',
 				url:`${apiKeys.databaseURL}/movies.json?orderBy="uid"&equalTo="${uid}"`
 			}).then( (response)=>{
+				console.log("response", response);
 				let movies = [];
 				Object.keys(response).forEach( (key)=> {
 					response[key].id = key;
 					movies.push(response[key]);
 				});
-				resolve(response);
+				resolve(movies);
 			},(error)=>{
 				reject(error);
 			});
@@ -36,7 +37,7 @@ function deleteMovie(apiKeys , movieID){
 		return new Promise( (resolve, reject)=> {
 			$.ajax({
 				method:'DELETE',
-				url:`${apiKeys.databaseURL}/searches/${movieID}.json`
+				url:`${apiKeys.databaseURL}/movies/${movieID}.json`
 			}).then( (response)=>{
 				console.log("response from delete", response);
 				resolve(response);

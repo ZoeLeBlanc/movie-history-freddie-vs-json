@@ -19,6 +19,7 @@ let unseenMoviesDiv = $("#unseenMovies");
 
 function createLogoutButton(){
 	firebaseUser.getUser(apiKeys, uid).then(function(userResponse){
+		console.log("userResponse", userResponse);
 		$("#logout-container").html("");
 		let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT ${currentUser}</button>`;
 		$("#logout-container").append(logoutButton);

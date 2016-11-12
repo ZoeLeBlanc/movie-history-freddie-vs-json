@@ -25,7 +25,7 @@ function addUser(apiKeys, newUser){
 				data: JSON.stringify(newUser),
 				dataType: 'json'
 			}).then( (response)=>{
-				console.log("response", response);
+				console.log("response addUser", response);
 				resolve(response);
 			},(error)=>{
 				reject(error);

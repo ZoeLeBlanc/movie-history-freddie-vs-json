@@ -2,11 +2,13 @@
 //Set browersify requires
 let searchMovie = require("./searchMovie");
 let credentials = require("./credentials");
+let movieCredentials = require("./movieCredentials");
 let firebaseMethods = require("./firebaseMethods");
 let firebaseAuth = require("./firebaseAuth");
 let firebaseUser = require("./firebaseUser");
 //Set variables
 let apiKeys = {};
+let movieKey = "";
 let uid = "";
 let searchedMovie = "";
 let currentUser = "";
@@ -24,9 +26,10 @@ function createLogoutButton(){
 	});
 }
 //Load initial display search Movie
-function displaySearchMovie(movieSearched){
+function displaySearchMovie(movieSearched, movieKey){
+	console.log(movieKey);
 	//clear out DOM
-	searchMovie(movieSearched).then((returnedMovie)=>{
+	searchMovie(movieSearched, movieKey).then((returnedMovie)=>{
 		$("#movieSearchArea").html("");
 		console.log("returned Movie: ", returnedMovie);
 		searchedMovie = returnedMovie;
@@ -311,20 +314,25 @@ $(document).ready(function() {
 		apiKeys = keys;
 		firebase.initializeApp(keys);
 	});
+	movieCredentials().then( (keys)=>{
+		console.log("first key", keys);
+		movieKey = Object.values(keys)[0];
+		console.log("second key", movieKey);
+	});
 	//Initialize select elements for materialize
 	$("select").material_select();
 	//get Movie search title on enter key
 	$('#movie-input').keypress( (event)=>{
 		if (event.which == 13){
 			let movieTitle = $("#movie-input").val();
-			displaySearchMovie(movieTitle);
+			displaySearchMovie(movieTitle, movieKey);
 			$("#movie-input").val("");
 		}
 	});
 	//get Movie search title on button click
 	$('#search-button').on("click", (event)=>{
 		let movieTitle = $("#movie-input").val();
-		displaySearchMovie(movieTitle);
+		displaySearchMovie(movieTitle, movieKey);
 		$("#movie-input").val("");
 	});
 	//get register click
